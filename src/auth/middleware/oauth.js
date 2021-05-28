@@ -18,7 +18,6 @@ module.exports = async (req, res, next) => {
         const remoteToken = await exchangeCodeForToken(code);
         console.log('remoteToken',remoteToken);
         const remoteUser = await getRemoteUserInfo(remoteToken);
-        console.log('remoteUser',remoteUser);
         const [user, token] = await getUser(remoteUser);
         console.log('after save to db', user, token);
 
@@ -39,14 +38,17 @@ async function exchangeCodeForToken(code) {
         code: code,
         grant_type: 'authorization_code'
     }
-    const tokenResponse = await superagent.post(tokenServerUrl).send((data));
+    console.log(data);
+        const tokenResponse = await superagent.post(tokenServerUrl).set('Content-Type', 'application/x-www-form-urlencoded').send(data);
     const accessToken = tokenResponse.body.access_token;
     return accessToken;
+
+
 }
 
 async function getRemoteUserInfo(token) {
     const userResponse = await superagent.get(remoteAPI)
-        .set('Authorization', `token ${token}`)
+        .set('Authorization', `bearer ${token}`)
         .set('user-agent', 'express-app');
 
     const user = userResponse.body;
@@ -56,12 +58,12 @@ async function getRemoteUserInfo(token) {
 
 async function getUser(remoteUser) {
     const user = {
-        username: remoteUser.login,
+        username: remoteUser.username,
         password: 'this_should_be_empty',
     };
 
     const userObj = new User(user);
-    const userDoc = userObj.save();
+    const userDoc = await userObj.save();
 
     const token = userDoc.token;
     return [user, token];

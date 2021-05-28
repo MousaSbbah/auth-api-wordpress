@@ -1,7 +1,7 @@
 const authorizeUrl =
   'https://public-api.wordpress.com/oauth2/authorize';
 const options = {
-  client_id: 76048,
+  client_id: 76057,
   redirect_uri: 'http://localhost:3030/oauth',
   response_type: 'code',
 };

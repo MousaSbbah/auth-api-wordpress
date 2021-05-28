@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const users = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
+  username: { type: String, required: true, unique: false },
   password: { type: String, required: true },
   role: { type: String, required: true, default: 'user', enum: ['user', 'editor', 'admin','writer'] },
 });
@@ -18,6 +18,7 @@ users.virtual('token').get(function () {
   let tokenObject = {
     username: this.username,
   }
+  console.log(tokenObject);
   return jwt.sign(tokenObject, process.env.SECRET)
 });
 

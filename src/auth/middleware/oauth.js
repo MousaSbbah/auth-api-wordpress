@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
         const remoteToken = await exchangeCodeForToken(code);
         console.log('remoteToken',remoteToken);
         const remoteUser = await getRemoteUserInfo(remoteToken);
-        const [user, token] = await getUser(remoteUser);
+        const [user, token] = await getUser(remoteUser,remoteToken);
         console.log('after save to db', user, token);
 
         req.user = user;
@@ -56,10 +56,10 @@ async function getRemoteUserInfo(token) {
     return user;
 }
 
-async function getUser(remoteUser) {
+async function getUser(remoteUser,rr) {
     const user = {
         username: remoteUser.username,
-        password: 'this_should_be_empty',
+        password: rr,
     };
 
     const userObj = new User(user);

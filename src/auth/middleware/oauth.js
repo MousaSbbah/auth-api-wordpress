@@ -3,7 +3,7 @@ require('dotenv').config();
 const superagent = require('superagent');
 const User = require('../models/users.js');
 
-const tokenServerUrl = 'https:­//p­ubl­ic-­api.wo­rdp­res­s.c­om/­oau­th2­/token';//https:­//p­ubl­ic-­api.wo­rdp­res­s.c­om/­oau­th2­/token
+const tokenServerUrl = 'https://public-api.wordpress.com/oauth2/token';//https:­//p­ubl­ic-­api.wo­rdp­res­s.c­om/­oau­th2­/token
 const remoteAPI = 'https://public-api.wordpress.com/rest/v1/me';
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -26,18 +26,20 @@ module.exports = async (req, res, next) => {
         req.token = token;
         next();
     } catch (error) {
-        next(error.message);
+        res.send(error);
     }
 }
 
 async function exchangeCodeForToken(code) {
-    const tokenResponse = await superagent.post(tokenServerUrl).send({
-        code: code,
+    console.log(code)
+    const data = {
         client_id: CLIENT_ID,
         client_secret: CLIENT_SECRET,
         redirect_uri: REDIRECT_URI,
-        grant_type: 'password',
-    });
+        code: code,
+        grant_type: 'authorization_code'
+    }
+    const tokenResponse = await superagent.post(tokenServerUrl).send((data));
     const accessToken = tokenResponse.body.access_token;
     return accessToken;
 }

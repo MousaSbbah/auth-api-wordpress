@@ -2,7 +2,7 @@ const authorizeUrl =
   'https://public-api.wordpress.com/oauth2/authorize';
 const options = {
   client_id: 76057,
-  redirect_uri: 'http://localhost:3030/oauth',
+  redirect_uri: 'https://worddpress-oauth.herokuapp.com/oauth',
   response_type: 'code',
 };
 //https://public-api.wordpress.com/oauth2/authorize?client_id=76048&redirect_uri=http%3A%2F%2Flocalhost%3A3030%2Foauth&response_type=code

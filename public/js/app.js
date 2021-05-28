@@ -1,14 +1,14 @@
 const authorizeUrl =
-  'https:­//p­ubl­ic-­api.wo­rdp­res­s.c­om/­oau­th2­/au­thorize';
+  'https://public-api.wordpress.com/oauth2/authorize';
 const options = {
   client_id: '76048',
   redirect_uri: 'http://localhost:3030/oauth',
   response_type: 'code',
 };
-
+//https://public-api.wordpress.com/oauth2/authorize?client_id=76048&redirect_uri=http%3A%2F%2Flocalhost%3A3030%2Foauth&response_type=code
 const queryString = Object.keys(options)
   .map((key) => {
-    return `${key}=${encodeURIComponent(options[key])}`;
+    return `${key}=${encodeURIComponent(options[key])}`+'/';
     // client_id=f99cc8c339968475c82d&scope=readEncodeColon&state=some_randome_string
   })
   .join('&');
@@ -16,6 +16,6 @@ const queryString = Object.keys(options)
 console.log('query string: ', queryString);
 
 const authUrl = `${authorizeUrl}?${queryString}`;
-console.log(authUrl);
+console.log(typeof(authUrl));
 const a = document.getElementById('oauth');
 a.setAttribute('href', authUrl);

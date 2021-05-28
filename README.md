@@ -1,35 +1,67 @@
-# basic-api-server
-
-**V1.1**
-
-## Author
-
-Mousa Sabah
+# auth-api-wordpress
 
 ## About
 
-API-server that implements Basic and bearer Authentication, with **signup** and **signin** capabilities for each user there is a permission that allowed you to read , create ,update or delete, using a Mongo database for storage.
+The server will allow useres to signup and sign in using basic authentication, besides, the server allows the users to use Oauth for ***Wordpress***.
+
+The server has two api versions:
+
+Version 1 :
+
+Consists of 2 routes, food and clothes with CRUD operations and Mongoose Database.
+
+Version 2:
+
+The server will allow users to use the routes food and clothes using bearer authentication, RBAC rules are applied on the users.The users have different CRUD permissions depends on their roles in the Mongoose Database using JSON web token.
+
+## Authors
+
+1. ***Shady Khaled***
+2. ***Mousa Sabbah***
+3. ***Tasnim Wheebi***
+4. ***Amjad Mesmar***
 
 **The server support the FORM-DATA**
 
-## Deployment
+## Links
 
 This project use Heroku to deployment
 
-API Live Url: **https://mousa-auth-api.herokuapp.com/**
-
-## Pull Request
-
-This is the Main Pull Request for this project :
-https://github.com/MousaSbbah/auth-api/pull/1
+Repository:   **https://github.com/MousaSbbah/auth-api-wordpress**
+Heroku App Url: **https://worddpress-oauth.herokuapp.com/**
 
 ## Setup
 
-.env requirements
+### Dependencies
 
-      PORT - 3030
-      MONGOOSE_URI -  mongodb://********************
-      SECRET - *****
+```
+
+  "dependencies": {
+    "base-64": "^1.0.0",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.11",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "superagent": "^6.1.0"
+  }
+
+```
+
+### .env requirements
+
+```
+      PORT = 3030
+      MONGOOSE_URI = mongodb://********************
+      SECRET = *****
+      CLIENT_ID = *******************
+      CLIENT_SECRET = *******************
+      REDIRECT_URI = *******************
+```
 
 ## Running the app
 
@@ -82,18 +114,19 @@ Endpoint:
 
   ```
 
--  `/food` Return JSON objects
+-  `/api/v1/food` Return JSON objects
 ```json
   [
     {
         "_id": "60ae3e97d1b84b589696913a",
-        "name": "pizza",
-        "calories": 250,
+        "name": "apple",
+        "calories": 60,
+        "type": "FRUIT",
         "__v": 0
     }
 ]
   ```
-- `/clothes`Return JSON objects
+- `/api/v1/clothes`Return JSON objects
 
 ```json
 [
@@ -107,22 +140,44 @@ Endpoint:
 ]
 ```
 
-## Tests
-high coverage test : 
+-  `/api/v2/food` Return JSON objects
+```json
+  [
+    {
+        "_id": "60ae3e97d1b84b589696913a",
+        "name": "apple",
+        "calories": 60,
+        "type": "FRUIT",
+        "__v": 0
+    }
+]
+  ```
+- `/api/v2/clothes`Return JSON objects
 
-![coverage](./assest/coverage.png)
-
-
-You can check Github actions link :**https://github.com/MousaSbbah/auth-api/actions**
-
-**Unit Tests:**
-
+```json
+[
+    {
+        "_id": "60aebdff86f6065b604fb22b",
+        "name": "T-Shirt",
+        "color": "Black",
+        "size": "L",
+        "__v": 0
+    }
+]
 ```
-npm run test
+
+- `/oauth`
+
+```json
+{
+"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vdXNhMTIzOTk2IiwiaWF0IjoxNjIyMjI4MjYzfQ.vuh-2o1HxZ1-GR4OF9hxw1qJX9HbT9YsPLfoC9M-wPI",
+"user": {
+"username": "mousa123996",
+"password": "58z5c@BB5k@LtZzV4Qe#PAA7bHQA5vzkrkFOaBin#lf20e&SSTsk3M(D%8qg4&Nd"
+}
+}
 ```
 
-##
+## UML Diagram
 
-## UML
-
-![uml](./assest/uml.png)
+![uml](./assest/Wordpress-Oauth-V2.png)
